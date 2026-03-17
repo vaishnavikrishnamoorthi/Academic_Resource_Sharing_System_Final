@@ -1,0 +1,39 @@
+require("dotenv").config();
+const express = require("express");
+const cors = require("cors");
+require("./config/db");
+
+const app = express();
+
+app.use(cors());
+app.use(express.json());
+app.use("/uploads", express.static("uploads"));
+
+const authRoutes = require("./routes/authRoutes");
+const resourceRoutes = require("./routes/resourceRoutes");
+const bookmarkRoutes = require("./routes/bookmarkRoutes");
+const activityRoutes = require("./routes/activityRoutes");
+const verifyToken = require("./middleware/authMiddleware");
+
+app.use("/api/auth", authRoutes);
+app.use("/api/resources", resourceRoutes);
+app.use("/api/bookmarks", bookmarkRoutes);
+app.use("/api/activity", activityRoutes);
+app.use("/api/news", require("./routes/newsRoutes"));
+app.use("/api/ai-news", require("./routes/aiNewsRoutes")); // AI Feature — remove this line to disable
+
+app.get("/api/protected", verifyToken, (req, res) => {
+  res.json({
+    message: "Protected route accessed",
+    user: req.user
+  });
+});
+
+app.get("/", (req, res) => {
+  res.send("Academic Resource Sharing System Backend Running");
+});
+
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server running on port ${PORT}`);
+});

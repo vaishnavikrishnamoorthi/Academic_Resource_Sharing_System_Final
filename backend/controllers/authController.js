@@ -3,7 +3,8 @@ const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 
 exports.signup = async (req, res) => {
-  const { name, email, password, role, roll_number, year, course, specialization } = req.body;
+  const { name, email: rawEmail, password, role, roll_number, year, course, specialization } = req.body;
+  const email = rawEmail?.toLowerCase().trim();
 
   if (!name || !email || !password || !role) {
     return res.status(400).json({ error: "All fields required" });
@@ -13,11 +14,12 @@ exports.signup = async (req, res) => {
   const emailDomains = {
     student: "@vcw.com",
     faculty: "@vcw.edu",
+    admin: "@admin.vcw.edu",
   };
 
-  if (!email.endsWith(emailDomains[role])) {
+  if (!emailDomains[role] || !email.endsWith(emailDomains[role])) {
     return res.status(400).json({
-      error: `Students must use ${emailDomains.student} and Faculty must use ${emailDomains.faculty} emails.`
+      error: `Email for ${role} must end with ${emailDomains[role] || "the appropriate domain"}.`
     });
   }
 
@@ -62,7 +64,8 @@ exports.signup = async (req, res) => {
 };
 
 exports.login = async (req, res) => {
-  const { email, password } = req.body;
+  const { email: rawEmail, password } = req.body;
+  const email = rawEmail?.toLowerCase().trim();
 
   try {
     const sql = "SELECT * FROM users WHERE email = ?";

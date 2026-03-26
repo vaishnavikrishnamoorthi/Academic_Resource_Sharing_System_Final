@@ -17,11 +17,11 @@ function LoginPage() {
     try {
       const res = await axios.post(
         "http://localhost:5000/api/auth/login",
-        { email, password }
+        { email: email.trim(), password }
       )
       const { token, role, name } = res.data
 
-      sessionStorage.setItem("user", JSON.stringify({ name, role, email }))
+      sessionStorage.setItem("user", JSON.stringify({ name, role, email: email.trim() }))
       sessionStorage.setItem("token", token)
       sessionStorage.setItem("role", role)
 
@@ -30,7 +30,7 @@ function LoginPage() {
       }
 
     } catch (err) {
-      showToast("Invalid credentials", "error")
+      showToast(err.response?.data?.error || "Invalid credentials", "error")
     }
   }
 

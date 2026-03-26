@@ -45,6 +45,7 @@ function SignupPage() {
     try {
       await axios.post("http://localhost:5000/api/auth/signup", {
         ...formData,
+        email: formData.email.trim(),
         role: activeTab,
       })
 

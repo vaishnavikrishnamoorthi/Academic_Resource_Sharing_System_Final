@@ -25,9 +25,11 @@ exports.signup = async (req, res) => {
 
   // Roll Number Validation (YYSSNNN)
   if (roll_number) {
-    const rollPattern = /^\d{2}[A-Z]{2}\d{3}$/;
+    const rollPattern = role === "student" ? /^\d{2}[A-Z]{2}\d{3}$/ : /^[A-Z]{2}[A-Z]{2}\d{3}$/;
     if (!rollPattern.test(roll_number)) {
-      return res.status(400).json({ error: "Invalid Roll Number format. Use YYSSNNN (e.g., 22CS001)" });
+      return res.status(400).json({ 
+        error: `Invalid Roll Number format. Use ${role === "student" ? "YYSSNNN (e.g., 22CS001)" : "RRSSNNN (e.g., FFCS001)"}` 
+      });
     }
   }
 
@@ -243,9 +245,12 @@ exports.updateUser = async (req, res) => {
 
     // Roll Number Validation & Uniqueness
     if (roll_number && roll_number !== user[0].roll_number) {
-      const rollPattern = /^\d{2}[A-Z]{2}\d{3}$/;
+      const targetRole = user[0].role;
+      const rollPattern = targetRole === "student" ? /^\d{2}[A-Z]{2}\d{3}$/ : /^[A-Z]{2}[A-Z]{2}\d{3}$/;
       if (!rollPattern.test(roll_number)) {
-        return res.status(400).json({ error: "Invalid Roll Number format. Use YYSSNNN (e.g., 22CS001)" });
+        return res.status(400).json({ 
+          error: `Invalid Roll Number format. Use ${targetRole === "student" ? "YYSSNNN (e.g., 22CS001)" : "RRSSNNN (e.g., FFCS001)"}` 
+        });
       }
 
       const [existingRoll] = await db.query("SELECT id FROM users WHERE roll_number = ? AND id != ?", [roll_number, userId]);

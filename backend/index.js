@@ -3,6 +3,8 @@ const express = require("express");
 const cors = require("cors");
 require("./config/db");
 
+const db = require("./config/db");
+
 const app = express();
 
 app.use(cors());
@@ -21,6 +23,18 @@ app.use("/api/bookmarks", bookmarkRoutes);
 app.use("/api/activity", activityRoutes);
 app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/ai-news", require("./routes/aiNewsRoutes")); // AI Feature — remove this line to disable
+
+async function testDB() {
+  try {
+    const connection = await db.getConnection();
+    console.log("✅ Database connected successfully");
+    connection.release();
+  } catch (err) {
+    console.error("❌ Database connection failed:", err.message);
+  }
+}
+
+testDB();
 
 app.get("/api/protected", verifyToken, (req, res) => {
   res.json({

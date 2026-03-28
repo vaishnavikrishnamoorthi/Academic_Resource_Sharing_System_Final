@@ -107,7 +107,7 @@ const StudentPage = () => {
     if (!fileUrl) return;
     // Ensure URL has forward slashes
     const normalizedUrl = fileUrl.replace(/\\/g, "/");
-    window.open(`http://localhost:5000/${normalizedUrl}`, "_blank");
+    window.open(`https://academic-resource-sharing-system-final.onrender.com/${normalizedUrl}`, "_blank");
   };
 
   const handleLogout = () => {

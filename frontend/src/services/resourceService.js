@@ -3,9 +3,6 @@ import axiosInstance from "../utils/axiosInstance";
 // 🔹 Upload Resource
 export const uploadResource = (formData, onUploadProgress) => {
   return axiosInstance.post("/resources/upload", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data",
-    },
     onUploadProgress,
   });
 };

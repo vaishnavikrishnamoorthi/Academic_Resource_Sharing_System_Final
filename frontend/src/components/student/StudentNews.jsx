@@ -54,7 +54,7 @@ const StudentNews = () => {
                             {/* View Button */}
                             <div className="mt-auto">
                                 <a
-                                    href={item.type === 'link' ? item.content : `http://localhost:5000/${item.content}`}
+                                    href={item.type === 'link' ? item.content : `https://academic-resource-sharing-system-final.onrender.com/${item.content}`}
                                     target="_blank"
                                     rel="noopener noreferrer"
                                     className="inline-block px-4 py-2 bg-blue-600 text-white text-sm font-medium rounded-lg hover:bg-blue-700 transition-colors shadow-sm"

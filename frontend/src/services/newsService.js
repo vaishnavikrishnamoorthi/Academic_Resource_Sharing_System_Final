@@ -1,11 +1,7 @@
 import axiosInstance from "../utils/axiosInstance";
 
 export const uploadNews = (formData) => {
-    return axiosInstance.post("/news/upload", formData, {
-        headers: {
-            "Content-Type": "multipart/form-data",
-        },
-    });
+    return axiosInstance.post("/news/upload", formData);
 };
 
 

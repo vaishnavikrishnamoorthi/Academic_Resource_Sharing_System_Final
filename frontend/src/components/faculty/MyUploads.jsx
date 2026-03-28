@@ -116,7 +116,7 @@ const MyUploads = ({ onEdit }) => {
     const handleDownload = (resource) => {
         if (!resource.file_url) return;
         const normalizedUrl = resource.file_url.replace(/\\/g, "/");
-        window.open(`http://localhost:5000/${normalizedUrl}`, "_blank");
+        window.open(`https://academic-resource-sharing-system-final.onrender.com/${normalizedUrl}`, "_blank");
     };
 
     // Filter helpers
@@ -380,7 +380,7 @@ const MyUploads = ({ onEdit }) => {
                                                     <td className="px-4 py-3 whitespace-nowrap">
                                                         {item.type === 'image' && (
                                                             <a
-                                                                href={`http://localhost:5000/${item.content}`}
+                                                                href={`https://academic-resource-sharing-system-final.onrender.com/${item.content}`}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
                                                                 className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-indigo-100 text-indigo-700 hover:bg-indigo-200 transition-colors border border-indigo-200"
@@ -390,7 +390,7 @@ const MyUploads = ({ onEdit }) => {
                                                         )}
                                                         {item.type === 'file' && (
                                                             <a
-                                                                href={`http://localhost:5000/${item.content}`}
+                                                                href={`https://academic-resource-sharing-system-final.onrender.com/${item.content}`}
                                                                 target="_blank"
                                                                 rel="noopener noreferrer"
                                                                 className="inline-flex items-center px-3 py-1 rounded-full text-xs font-medium bg-green-100 text-green-700 hover:bg-green-200 transition-colors border border-green-200"

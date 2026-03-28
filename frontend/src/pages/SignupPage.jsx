@@ -43,7 +43,7 @@ function SignupPage() {
     setLoading(true)
 
     try {
-      await axios.post("http://localhost:5000/api/auth/signup", {
+      await axios.post("https://academic-resource-sharing-system-final.onrender.com/api/auth/signup", {
         ...formData,
         email: formData.email.trim(),
         role: activeTab,
@@ -115,16 +115,20 @@ function SignupPage() {
               />
             </div>
             <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">Roll Number</label>
+              <label className="block text-xs font-medium text-gray-600 mb-1">
+                {activeTab === "student" ? "Roll Number" : "Faculty ID"}
+              </label>
               <input
                 type="text"
                 name="roll_number"
-                placeholder="e.g. 21CS001"
+                placeholder={activeTab === "student" ? "e.g. 21CS001" : "e.g. FFCS001"}
                 className={inputClass}
                 value={formData.roll_number}
                 onChange={(e) => setFormData({ ...formData, roll_number: e.target.value.toUpperCase() })}
-                pattern="^[0-9]{2}[A-Z]{2}[0-9]{3}$"
-                title="Roll Number must be in YYSSNNN format (e.g., 22CS001)"
+                pattern={activeTab === "student" ? "^[0-9]{2}[A-Z]{2}[0-9]{3}$" : "^[A-Z]{2}[A-Z]{2}[0-9]{3}$"}
+                title={activeTab === "student" 
+                  ? "Roll Number must be in YYSSNNN format (e.g., 22CS001)" 
+                  : "Faculty ID must be in RRSSNNN format (e.g., FFCS001)"}
                 required
               />
             </div>

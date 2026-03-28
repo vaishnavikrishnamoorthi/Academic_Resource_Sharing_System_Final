@@ -60,7 +60,7 @@ const AdminNews = () => {
             window.open(item.content, "_blank");
         } else {
             const normalizedUrl = item.content.replace(/\\/g, "/");
-            window.open(`http://localhost:5000/${normalizedUrl}`, "_blank");
+            window.open(`https://academic-resource-sharing-system-final.onrender.com/${normalizedUrl}`, "_blank");
         }
     };
 

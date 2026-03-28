@@ -16,7 +16,7 @@ function LoginPage() {
 
     try {
       const res = await axios.post(
-        "http://localhost:5000/api/auth/login",
+        "https://academic-resource-sharing-system-final.onrender.com/api/auth/login",
         { email: email.trim(), password }
       )
       const { token, role, name } = res.data

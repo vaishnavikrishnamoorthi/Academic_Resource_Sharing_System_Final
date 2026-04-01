@@ -95,13 +95,25 @@ function SignupPage() {
           >
             Faculty
           </button>
+          {/* --- ADMIN TAB START --- */}
+          <button
+            type="button"
+            onClick={() => handleTabSwitch("admin")}
+            className={`flex-1 py-2.5 rounded-lg text-sm font-semibold transition-all duration-200 ${activeTab === "admin"
+              ? "bg-blue-600 text-white shadow-md"
+              : "text-gray-500 hover:text-gray-800"
+              }`}
+          >
+            Admin
+          </button>
+          {/* --- ADMIN TAB END --- */}
         </div>
 
         {/* Form */}
         <form onSubmit={handleSignup} className="space-y-3.5">
 
           {/* Row 1: Name + Roll Number */}
-          <div className="grid grid-cols-2 gap-3">
+          <div className={activeTab === "admin" ? "block" : "grid grid-cols-2 gap-3"}>
             <div>
               <label className="block text-xs font-medium text-gray-600 mb-1">Full Name</label>
               <input
@@ -114,24 +126,26 @@ function SignupPage() {
                 required
               />
             </div>
-            <div>
-              <label className="block text-xs font-medium text-gray-600 mb-1">
-                {activeTab === "student" ? "Roll Number" : "Faculty ID"}
-              </label>
-              <input
-                type="text"
-                name="roll_number"
-                placeholder={activeTab === "student" ? "e.g. 21CS001" : "e.g. FFCS001"}
-                className={inputClass}
-                value={formData.roll_number}
-                onChange={(e) => setFormData({ ...formData, roll_number: e.target.value.toUpperCase() })}
-                pattern={activeTab === "student" ? "^[0-9]{2}[A-Z]{2}[0-9]{3}$" : "^[A-Z]{2}[A-Z]{2}[0-9]{3}$"}
-                title={activeTab === "student" 
-                  ? "Roll Number must be in YYSSNNN format (e.g., 22CS001)" 
-                  : "Faculty ID must be in RRSSNNN format (e.g., FFCS001)"}
-                required
-              />
-            </div>
+            {activeTab !== "admin" && (
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">
+                  {activeTab === "student" ? "Roll Number" : "Faculty ID"}
+                </label>
+                <input
+                  type="text"
+                  name="roll_number"
+                  placeholder={activeTab === "student" ? "e.g. 21CS001" : "e.g. FFCS001"}
+                  className={inputClass}
+                  value={formData.roll_number}
+                  onChange={(e) => setFormData({ ...formData, roll_number: e.target.value.toUpperCase() })}
+                  pattern={activeTab === "student" ? "^[0-9]{2}[A-Z]{2}[0-9]{3}$" : "^[A-Z]{2}[A-Z]{2}[0-9]{3}$"}
+                  title={activeTab === "student" 
+                    ? "Roll Number must be in YYSSNNN format (e.g., 22CS001)" 
+                    : "Faculty ID must be in RRSSNNN format (e.g., FFCS001)"}
+                  required
+                />
+              </div>
+            )}
           </div>
 
           {/* Student-only: Year + Course */}
@@ -165,18 +179,20 @@ function SignupPage() {
           )}
 
           {/* Specialization */}
-          <div>
-            <label className="block text-xs font-medium text-gray-600 mb-1">Specialization</label>
-            <input
-              type="text"
-              name="specialization"
-              placeholder="e.g. Computer Science"
-              className={inputClass}
-              value={formData.specialization}
-              onChange={handleChange}
-              required
-            />
-          </div>
+          {activeTab !== "admin" && (
+            <div>
+              <label className="block text-xs font-medium text-gray-600 mb-1">Specialization</label>
+              <input
+                type="text"
+                name="specialization"
+                placeholder="e.g. Computer Science"
+                className={inputClass}
+                value={formData.specialization}
+                onChange={handleChange}
+                required
+              />
+            </div>
+          )}
 
           {/* Email */}
           <div>
@@ -184,16 +200,16 @@ function SignupPage() {
             <input
               type="email"
               name="email"
-              placeholder={`Enter your ${activeTab === 'student' ? '@vcw.com' : '@vcw.edu'} email`}
+              placeholder={`Enter your ${activeTab === 'student' ? '@vcw.com' : activeTab === 'faculty' ? '@vcw.edu' : '@admin.vcw.edu'} email`}
               className={inputClass}
               value={formData.email}
               onChange={handleChange}
-              pattern={activeTab === "student" ? ".*@vcw\\.com$" : ".*@vcw\\.edu$"}
-              title={`Please use your ${activeTab === "student" ? "@vcw.com" : "@vcw.edu"} email address`}
+              pattern={activeTab === "student" ? ".*@vcw\\.com$" : activeTab === "faculty" ? ".*@vcw\\.edu$" : ".*@admin\\.vcw\\.edu$"}
+              title={`Please use your ${activeTab === "student" ? "@vcw.com" : activeTab === "faculty" ? "@vcw.edu" : "@admin.vcw.edu"} email address`}
               required
             />
             <p className="mt-1 text-[10px] text-gray-400 italic">
-              * Required: Use <strong>{activeTab === "student" ? "@vcw.com" : "@vcw.edu"}</strong> for {activeTab} accounts.
+              * Required: Use <strong>{activeTab === "student" ? "@vcw.com" : activeTab === "faculty" ? "@vcw.edu" : "@admin.vcw.edu"}</strong> for {activeTab} accounts.
             </p>
           </div>
 

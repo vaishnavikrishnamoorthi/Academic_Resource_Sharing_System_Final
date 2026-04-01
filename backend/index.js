@@ -5,9 +5,6 @@ const fs = require("fs");
 const path = require("path");
 require("./config/db");
 
-// 🔥 ADDED FOR ADMIN CREATION
-const bcrypt = require("bcrypt"); 
-
 // Ensure uploads directory exists
 const uploadsDir = path.join(__dirname, "uploads");
 if (!fs.existsSync(uploadsDir)) {
@@ -36,37 +33,6 @@ app.use("/api/activity", activityRoutes);
 app.use("/api/news", require("./routes/newsRoutes"));
 app.use("/api/ai-news", require("./routes/aiNewsRoutes")); // AI Feature — remove this line to disable
 
-
-// 🔥 ADDED FOR ADMIN CREATION - START
-async function createAdmin() {
-  try {
-    const email = "admin@admin.vcw.edu";
-
-    const [existing] = await db.query(
-      "SELECT * FROM users WHERE email = ?",
-      [email]
-    );
-
-    if (existing.length === 0) {
-      const hashedPassword = await bcrypt.hash("admin123", 10);
-
-      await db.query(
-        `INSERT INTO users (name, email, password, role, status)
-         VALUES (?, ?, ?, 'admin', 'active')`,
-        ["Main Admin", email, hashedPassword]
-      );
-
-      console.log("✅ Admin created successfully");
-    } else {
-      console.log("⚠️ Admin already exists");
-    }
-  } catch (err) {
-    console.error("❌ Error creating admin:", err.message);
-  }
-}
-// 🔥 ADDED FOR ADMIN CREATION - END
-
-
 async function testDB() {
   try {
     const connection = await db.getConnection();
@@ -91,10 +57,6 @@ app.get("/", (req, res) => {
 });
 
 const PORT = process.env.PORT || 5000;
-
-app.listen(PORT, async () => {
+app.listen(PORT, () => {
   console.log(`Server running on port ${PORT}`);
-
-  // 🔥 ADDED FOR ADMIN CREATION
-  await createAdmin(); 
 });

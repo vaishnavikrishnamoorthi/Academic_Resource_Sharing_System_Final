@@ -1,6 +1,11 @@
 import { useState, useEffect, useRef } from "react"
 import { useNavigate } from "react-router-dom"
 
+import logo from "../../assets/logo.png"
+import year from "../../assets/year.png"
+import naac from "../../assets/naac.png"
+import iso from "../../assets/iso.png"
+
 function Navbar() {
     const [isHovered, setIsHovered] = useState(false)
     const [isClicked, setIsClicked] = useState(false)
@@ -51,7 +56,7 @@ function Navbar() {
                     {/* Left side - Logo + College Name */}
                     <div className="flex items-center gap-4">
                         <img
-                            src="/src/assets/logo.png"
+                            src={logo}
                             alt="College Logo"
                             className="h-14"
                         />
@@ -69,9 +74,9 @@ function Navbar() {
 
                     {/* Right side - Accreditation logos */}
                     <div className="flex items-center gap-6">
-                        <img src="/src/assets/year.png" alt="Year" className="h-12" />
-                        <img src="/src/assets/naac.png" alt="NAAC" className="h-12" />
-                        <img src="/src/assets/iso.png" alt="ISO" className="h-12" />
+                        <img src={year} alt="Year" className="h-12" />
+                        <img src={naac} alt="NAAC" className="h-12" />
+                        <img src={iso} alt="ISO" className="h-12" />
                     </div>
 
                 </div>
